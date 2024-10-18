@@ -15,12 +15,11 @@ export class App extends CustomElement {
     }
 
     this.canvas = 500
-    this.width = this.points.x3 - this.points.x0
-    this.height = this.points.y0 - this.points.y3
+    this.width
+    this.height
     this.offsetX = (this.offsetWidth - this.canvas) / 2
     this.offsetY = (this.offsetHeight - this.canvas) / 2
 
-    this.res = 500
     this.dragging = false
     this.selected
     this.offset = {}
@@ -51,6 +50,9 @@ export class App extends CustomElement {
   }
 
   update = (e) => {
+    this.width = this.points.x3 - this.points.x0
+    this.height = this.points.y0 - this.points.y3
+
     if (this.dragging) {
       this.points[`x${this.selected}`] = e.clientX - this.offsetX
       this.points[`y${this.selected}`] = this.canvas - (e.clientY - this.offsetY)
@@ -62,10 +64,10 @@ export class App extends CustomElement {
   plotx(f, b) {
     let coords = ""
 
-    for (let i = 0; i <= this.res; i++) {
-      let j = i / this.res
+    for (let i = 0; i <= this.canvas; i++) {
+      let j = i / this.canvas
       //let y = bernstein(this.y0, this.y1, this.y2, this.y3, j)
-      let y = j * this.res
+      let y = j * this.canvas
 
       coords += ` ${y},${f(j, b)}`
     }
@@ -76,10 +78,10 @@ export class App extends CustomElement {
   ploty(f, b) {
     let coords = ""
 
-    for (let i = 0; i <= this.res; i++) {
-      let j = i / this.res
+    for (let i = 0; i <= this.canvas; i++) {
+      let j = i / this.canvas
       //let x = bernstein(this.x0, this.x1, this.x2, this.x3, j)
-      let x = j * this.res
+      let x = j * this.canvas
 
       coords += ` ${x},${f(j, b)}`
     }
@@ -97,7 +99,7 @@ export class App extends CustomElement {
               <line x1="0" y1="0" x2="0" y2="500" stroke="#fff" stroke-width="2" stroke-linecap="round" />
             </g>
             <!--<g class="x-plots" transform="scale(-1,1) rotate(90 0 0)">-->
-            <g class="x-plots" transform="translate(0 ${this.height}) rotate(-90 0 0)">
+            <g class="x-plots" transform="translate(0, 500) rotate(-90 0 0) ">
               <polyline points="${this.plotx(f0, this.points.x0)}" fill="none" stroke="#ff0000" stroke-width="2" stroke-linecap="round" />
               <polyline points="${this.plotx(f1, this.points.x1)}" fill="none" stroke="#ff00ff" stroke-width="2" stroke-linecap="round" />
               <polyline points="${this.plotx(f2, this.points.x2)}" fill="none" stroke="#0000ff" stroke-width="2" stroke-linecap="round" />
