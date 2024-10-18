@@ -64,10 +64,10 @@ export class App extends CustomElement {
   plotx(f, b) {
     let coords = ""
 
-    for (let i = 0; i <= this.canvas; i++) {
-      let j = i / this.canvas
+    for (let i = 0; i <= this.height; i++) {
+      let j = i / this.height
       //let y = bernstein(this.y0, this.y1, this.y2, this.y3, j)
-      let y = j * this.canvas
+      let y = j * this.height
 
       coords += ` ${y},${f(j, b)}`
     }
@@ -78,10 +78,10 @@ export class App extends CustomElement {
   ploty(f, b) {
     let coords = ""
 
-    for (let i = 0; i <= this.canvas; i++) {
-      let j = i / this.canvas
+    for (let i = 0; i <= this.width; i++) {
+      let j = i / this.width
       //let x = bernstein(this.x0, this.x1, this.x2, this.x3, j)
-      let x = j * this.canvas
+      let x = j * this.width
 
       coords += ` ${x},${f(j, b)}`
     }
@@ -90,7 +90,7 @@ export class App extends CustomElement {
   }
 
   render() {
-    if (this.offsetX) {
+    if (this.points) {
       return `
         <svg>
           <g transform="translate(${this.offsetX}, ${this.offsetY})">
@@ -99,13 +99,13 @@ export class App extends CustomElement {
               <line x1="0" y1="0" x2="0" y2="500" stroke="#fff" stroke-width="2" stroke-linecap="round" />
             </g>
             <!--<g class="x-plots" transform="scale(-1,1) rotate(90 0 0)">-->
-            <g class="x-plots" transform="translate(0, 500) rotate(-90 0 0) ">
+            <g class="x-plots" transform="translate(0, ${this.points.y0}) rotate(-90, 0, 0)">
               <polyline points="${this.plotx(f0, this.points.x0)}" fill="none" stroke="#ff0000" stroke-width="2" stroke-linecap="round" />
               <polyline points="${this.plotx(f1, this.points.x1)}" fill="none" stroke="#ff00ff" stroke-width="2" stroke-linecap="round" />
               <polyline points="${this.plotx(f2, this.points.x2)}" fill="none" stroke="#0000ff" stroke-width="2" stroke-linecap="round" />
               <polyline points="${this.plotx(f3, this.points.x3)}" fill="none" stroke="#00ffff" stroke-width="2" stroke-linecap="round" />
             </g>
-            <g class="y-plots">
+            <g class="y-plots" transform="translate(${this.points.x0} 0)">
               <polyline points="${this.ploty(f0, this.points.y0)}" fill="none" stroke="#ff0000" stroke-width="2" stroke-linecap="round" />
               <polyline points="${this.ploty(f1, this.points.y1)}" fill="none" stroke="#ff00ff" stroke-width="2" stroke-linecap="round" />
               <polyline points="${this.ploty(f2, this.points.y2)}" fill="none" stroke="#0000ff" stroke-width="2" stroke-linecap="round" />
