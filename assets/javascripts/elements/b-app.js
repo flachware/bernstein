@@ -101,21 +101,21 @@ export class App extends CustomElement {
             <!--<g class="x-plots" transform="scale(-1,1) rotate(90 0 0)">-->
             <g class="x-plots" transform="translate(0, ${this.points.y0}) rotate(-90, 0, 0)">
               <polyline points="${this.plotx(f0, this.points.x0)}" fill="none" stroke="#ff0000" stroke-width="2" stroke-linecap="round" />
-              <polyline points="${this.plotx(f1, this.points.x1)}" fill="none" stroke="#ff00ff" stroke-width="2" stroke-linecap="round" />
-              <polyline points="${this.plotx(f2, this.points.x2)}" fill="none" stroke="#0000ff" stroke-width="2" stroke-linecap="round" />
-              <polyline points="${this.plotx(f3, this.points.x3)}" fill="none" stroke="#00ffff" stroke-width="2" stroke-linecap="round" />
+              <polyline points="${this.plotx(f1, this.points.x1)}" fill="none" stroke="#ff8080" stroke-width="2" stroke-linecap="round" />
+              <polyline points="${this.plotx(f2, this.points.x2)}" fill="none" stroke="#8000ff" stroke-width="2" stroke-linecap="round" />
+              <polyline points="${this.plotx(f3, this.points.x3)}" fill="none" stroke="#0080ff" stroke-width="2" stroke-linecap="round" />
             </g>
             <g class="y-plots" transform="translate(${this.points.x0} 0)">
               <polyline points="${this.ploty(f0, this.points.y0)}" fill="none" stroke="#ff0000" stroke-width="2" stroke-linecap="round" />
-              <polyline points="${this.ploty(f1, this.points.y1)}" fill="none" stroke="#ff00ff" stroke-width="2" stroke-linecap="round" />
-              <polyline points="${this.ploty(f2, this.points.y2)}" fill="none" stroke="#0000ff" stroke-width="2" stroke-linecap="round" />
-              <polyline points="${this.ploty(f3, this.points.y3)}" fill="none" stroke="#00ffff" stroke-width="2" stroke-linecap="round" />
+              <polyline points="${this.ploty(f1, this.points.y1)}" fill="none" stroke="#ff8080" stroke-width="2" stroke-linecap="round" />
+              <polyline points="${this.ploty(f2, this.points.y2)}" fill="none" stroke="#8000ff" stroke-width="2" stroke-linecap="round" />
+              <polyline points="${this.ploty(f3, this.points.y3)}" fill="none" stroke="#0080ff" stroke-width="2" stroke-linecap="round" />
             </g>
             <path d="M ${this.points.x0},${this.points.y0} C${this.points.x1},${this.points.y1} ${this.points.x2},${this.points.y2} ${this.points.x3},${this.points.y3}" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" />
             <circle class="p" id="p0" cx="${this.points.x0}" cy="${this.points.y0}" fill="#ff0000" r="6" />
-            <circle class="p" id="p1" cx="${this.points.x1}" cy="${this.points.y1}" fill="#ff00ff" r="6" />
-            <circle class="p" id="p2" cx="${this.points.x2}" cy="${this.points.y2}" fill="#0000ff" r="6" />
-            <circle class="p" id="p3" cx="${this.points.x3}" cy="${this.points.y3}" fill="#00ffff" r="6" />
+            <circle class="p" id="p1" cx="${this.points.x1}" cy="${this.points.y1}" fill="#ff8080" r="6" />
+            <circle class="p" id="p2" cx="${this.points.x2}" cy="${this.points.y2}" fill="#8000ff" r="6" />
+            <circle class="p" id="p3" cx="${this.points.x3}" cy="${this.points.y3}" fill="#0080ff" r="6" />
           </g>
         </svg>`
     }
