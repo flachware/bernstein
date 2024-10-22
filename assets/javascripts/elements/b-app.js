@@ -93,11 +93,15 @@ export class App extends CustomElement {
     if (this.points) {
       return `
         <svg>
+          <defs>
+            <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse" x="50%" y="50%" patternTransform="translate(49, 49)">
+              <rect width="100%" height="100%" fill="none" stroke="#fff" stroke-width="4" />
+            </pattern>
+          </defs>
+          <g opacity="0.14">
+            <rect width="100%" height="100%" fill="url(#grid)" />
+          </g>
           <g transform="translate(${this.offsetX}, ${this.offsetY})">
-            <g opacity="0.14">
-              <line x1="0" y1="0" x2="500" y2="0" stroke="#fff" stroke-width="2" stroke-linecap="round" />
-              <line x1="0" y1="0" x2="0" y2="500" stroke="#fff" stroke-width="2" stroke-linecap="round" />
-            </g>
             <!--<g class="x-plots" transform="scale(-1,1) rotate(90 0 0)">-->
             <g class="x-plots" transform="translate(0, ${this.points.y0}) rotate(-90, 0, 0)">
               <polyline points="${this.plotx(f0, this.points.x0)}" fill="none" stroke="#ff0000" stroke-width="2" stroke-linecap="round" />
