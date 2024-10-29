@@ -48,10 +48,7 @@ export class App extends CustomElement {
       }
     })
 
-    this.observer = new ResizeObserver(this.update)
-    this.observer.observe(this)
-
-    this.update()
+    new ResizeObserver(this.update).observe(this)
   }
 
   handleMousedown = (e) => {
