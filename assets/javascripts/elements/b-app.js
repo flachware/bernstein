@@ -15,19 +15,15 @@ export class App extends CustomElement {
     }
 
     this.canvas = 500
+    this.offset = {}
     this.width
     this.height
-    this.offsetX = (this.offsetWidth - this.canvas) / 2
-    this.offsetY = (this.offsetHeight - this.canvas) / 2
-    this.cx = 0
-    this.cy = 0
+    this.circle = {}
     this.dragging = false
     this.shift = false
     this.horizontal
-    this.lastX
-    this.lastY
+    this.last = {}
     this.selected
-    this.offset = {}
 
     this.addEventListener('mousedown', (e) => {
       if (e.target.classList.contains('p')) {
@@ -59,11 +55,11 @@ export class App extends CustomElement {
   }
 
   handleMousedown = (e) => {
-    this.lastX = e.clientX
-    this.lastY = e.clientY
+    this.last.x = e.clientX
+    this.last.y = e.clientY
     this.selected = e.target.id.slice(-1)
-    this.cx = e.clientX - this.offsetX - this.points[`x${this.selected}`]
-    this.cy = this.canvas - (e.clientY - this.offsetY) - this.points[`y${this.selected}`]
+    this.circle.x = e.clientX - this.offset.x - this.points[`x${this.selected}`]
+    this.circle.y = this.canvas - (e.clientY - this.offset.y) - this.points[`y${this.selected}`]
     this.dragging = true
 
     this.addEventListener('mousemove', this.update)
@@ -72,7 +68,7 @@ export class App extends CustomElement {
   handleMouseup = (e) => {
     this.dragging = false
     this.selected = null
-    this.lastX = undefined
+    this.last.x = undefined
     this.horizontal = undefined
     this.removeEventListener('mousemove', this.udpate)
   }
@@ -84,13 +80,15 @@ export class App extends CustomElement {
   }
 
   update = (e) => {
+    this.offset.x = (this.offsetWidth - this.canvas) / 2
+    this.offset.y = (this.offsetHeight - this.canvas) / 2
     this.width = this.points.x3 - this.points.x0
     this.height = this.points.y0 - this.points.y3
 
     if (this.dragging) {
       if (this.shift == true && typeof this.horizontal == 'undefined') {
-        let dX = Math.abs(e.clientX - this.lastX)
-        let dY = Math.abs(e.clientY - this.lastY)
+        let dX = Math.abs(e.clientX - this.last.x)
+        let dY = Math.abs(e.clientY - this.last.y)
 
         if (dX > 10 && dX > dY ) {
           this.horizontal = true
@@ -101,16 +99,16 @@ export class App extends CustomElement {
       }
 
       if (this.horizontal == true) {
-        this.points[`x${this.selected}`] = e.clientX - this.offsetX - this.cx
-        this.points[`y${this.selected}`] = this.canvas - (this.lastY - this.offsetY) - this.cy
+        this.points[`x${this.selected}`] = e.clientX - this.offset.x - this.circle.x
+        this.points[`y${this.selected}`] = this.canvas - (this.last.y - this.offset.y) - this.circle.y
 
       } else if (this.horizontal == false) {
-        this.points[`x${this.selected}`] = this.lastX - this.offsetX - this.cx
-        this.points[`y${this.selected}`] = this.canvas - (e.clientY - this.offsetY) - this.cy
+        this.points[`x${this.selected}`] = this.last.x - this.offset.x - this.circle.x
+        this.points[`y${this.selected}`] = this.canvas - (e.clientY - this.offset.y) - this.circle.y
 
       } else {
-        this.points[`x${this.selected}`] = e.clientX - this.offsetX - this.cx
-        this.points[`y${this.selected}`] = this.canvas - (e.clientY - this.offsetY) - this.cy
+        this.points[`x${this.selected}`] = e.clientX - this.offset.x - this.circle.x
+        this.points[`y${this.selected}`] = this.canvas - (e.clientY - this.offset.y) - this.circle.y
       }
     }
 
@@ -197,7 +195,7 @@ export class App extends CustomElement {
           <g opacity="0.14">
             <rect width="100%" height="100%" fill="url(#grid)" />
           </g>
-          <g transform="translate(${this.offsetX}, ${this.offsetY})">
+          <g transform="translate(${this.offset.x}, ${this.offset.y})">
             <!--<g class="x-plots" transform="scale(-1,1) rotate(90 0 0)">-->
             <g class="x-plots" transform="translate(0, ${this.points.y0}) rotate(-90, 0, 0)">
               <polyline points="${this.plotx(f0, this.points.x0)}" fill="none" stroke="#ff0000" stroke-width="2" stroke-linecap="round" />
