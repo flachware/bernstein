@@ -48,7 +48,7 @@ export class App extends CustomElement {
       }
     })
 
-    this.observer = new ResizeObserver(this.handleResize)
+    this.observer = new ResizeObserver(this.update)
     this.observer.observe(this)
 
     this.update()
@@ -71,12 +71,6 @@ export class App extends CustomElement {
     this.last.x = undefined
     this.horizontal = undefined
     this.removeEventListener('mousemove', this.udpate)
-  }
-
-  handleResize = (entries) => {
-    for (const entry of entries) {
-      this.update()
-    }
   }
 
   update = (e) => {
