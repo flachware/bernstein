@@ -19,15 +19,19 @@ export class App extends CustomElement {
     this.height
     this.offsetX = (this.offsetWidth - this.canvas) / 2
     this.offsetY = (this.offsetHeight - this.canvas) / 2
-
+    this.cx = 0
+    this.cy = 0
     this.dragging = false
+    this.shift = false
+    this.horizontal
+    this.lastX
+    this.lastY
     this.selected
     this.offset = {}
 
     this.addEventListener('mousedown', (e) => {
       if (e.target.classList.contains('p')) {
-        this.selected = e.target.id.slice(-1)
-        this.handleMousedown()
+        this.handleMousedown(e)
       }
     })
 
@@ -35,17 +39,37 @@ export class App extends CustomElement {
       this.handleMouseup(e)
     })
 
+    document.addEventListener('keydown', (e) => {
+      if (e.key == 'Shift') {
+        this.shift = true
+      }
+    })
+
+    document.addEventListener('keyup', (e) => {
+      if (e.key == 'Shift') {
+        this.shift = false
+      }
+    })
+
     this.update()
   }
 
-  handleMousedown = () => {
+  handleMousedown = (e) => {
+    this.lastX = e.clientX
+    this.lastY = e.clientY
+    this.selected = e.target.id.slice(-1)
+    this.cx = e.clientX - this.offsetX - this.points[`x${this.selected}`]
+    this.cy = this.canvas - (e.clientY - this.offsetY) - this.points[`y${this.selected}`]
     this.dragging = true
+
     this.addEventListener('mousemove', this.update)
   }
 
   handleMouseup = (e) => {
     this.dragging = false
     this.selected = null
+    this.lastX = undefined
+    this.horizontal = undefined
     this.removeEventListener('mousemove', this.udpate)
   }
 
@@ -54,8 +78,30 @@ export class App extends CustomElement {
     this.height = this.points.y0 - this.points.y3
 
     if (this.dragging) {
-      this.points[`x${this.selected}`] = e.clientX - this.offsetX
-      this.points[`y${this.selected}`] = this.canvas - (e.clientY - this.offsetY)
+      if (this.shift == true && typeof this.horizontal == 'undefined') {
+        let dX = Math.abs(e.clientX - this.lastX)
+        let dY = Math.abs(e.clientY - this.lastY)
+
+        if (dX > 10 && dX > dY ) {
+          this.horizontal = true
+
+        } else if (dY > 10 && dY > dX ) {
+          this.horizontal = false
+        }
+      }
+
+      if (this.horizontal == true) {
+        this.points[`x${this.selected}`] = e.clientX - this.offsetX - this.cx
+        this.points[`y${this.selected}`] = this.canvas - (this.lastY - this.offsetY) - this.cy
+
+      } else if (this.horizontal == false) {
+        this.points[`x${this.selected}`] = this.lastX - this.offsetX - this.cx
+        this.points[`y${this.selected}`] = this.canvas - (e.clientY - this.offsetY) - this.cy
+
+      } else {
+        this.points[`x${this.selected}`] = e.clientX - this.offsetX - this.cx
+        this.points[`y${this.selected}`] = this.canvas - (e.clientY - this.offsetY) - this.cy
+      }
     }
 
     super.doRender()
