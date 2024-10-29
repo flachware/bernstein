@@ -48,6 +48,7 @@ export class App extends CustomElement {
     document.addEventListener('keyup', (e) => {
       if (e.key == 'Shift') {
         this.shift = false
+        this.horizontal = undefined
       }
     })
 
@@ -110,12 +111,32 @@ export class App extends CustomElement {
   plotx(f, b) {
     let coords = ""
 
-    for (let i = 0; i <= this.height; i++) {
-      let j = i / this.height
-      //let y = bernstein(this.y0, this.y1, this.y2, this.y3, j)
-      let y = j * this.height
+    if (this.height > 0) {
+      for (let i = 0; i <= this.height; i++) {
+        let j = i / this.height
+        let y = j * this.height
+        let x = f(j, b)
 
-      coords += ` ${y},${f(j, b)}`
+        coords += ` ${y},${x}`
+      }
+
+    } else if (this.height < 0) {
+      for (let i = 0; i >= this.height; i--) {
+        let j = i / this.height
+        let y = j * this.height
+        let x = f(j, b)
+
+        coords += ` ${y},${x}`
+      }
+
+    } else {
+      for (let i = 0; i <= this.canvas; i++) {
+        let j = i / this.canvas
+        let y = 0
+        let x = f(j, b)
+
+        coords += ` ${y},${x}`
+      }
     }
 
     return coords
@@ -124,12 +145,32 @@ export class App extends CustomElement {
   ploty(f, b) {
     let coords = ""
 
-    for (let i = 0; i <= this.width; i++) {
-      let j = i / this.width
-      //let x = bernstein(this.x0, this.x1, this.x2, this.x3, j)
-      let x = j * this.width
+    if (this.width < 0) {
+      for (let i = 0; i >= this.width; i--) {
+        let j = i / this.width
+        let x = this.points.x0 + j * this.width
+        let y = f(j, b)
 
-      coords += ` ${x},${f(j, b)}`
+        coords += ` ${x},${y}`
+      }
+
+    } else if (this.width > 0) {
+      for (let i = 0; i <= this.width; i++) {
+        let j = i / this.width
+        let x = this.points.x0 + j * this.width
+        let y = f(j, b)
+
+        coords += ` ${x},${y}`
+      }
+
+    } else {
+      for (let i = 0; i <= this.canvas; i++) {
+        let j = i / this.canvas
+        let x = this.points.x0
+        let y = f(j, b)
+
+        coords += ` ${x},${y}`
+      }
     }
 
     return coords
@@ -155,7 +196,7 @@ export class App extends CustomElement {
               <polyline points="${this.plotx(f2, this.points.x2)}" fill="none" stroke="#8000ff" stroke-width="2" stroke-linecap="round" />
               <polyline points="${this.plotx(f3, this.points.x3)}" fill="none" stroke="#0080ff" stroke-width="2" stroke-linecap="round" />
             </g>
-            <g class="y-plots" transform="translate(${this.points.x0} 0)">
+            <g class="y-plots">
               <polyline points="${this.ploty(f0, this.points.y0)}" fill="none" stroke="#ff0000" stroke-width="2" stroke-linecap="round" />
               <polyline points="${this.ploty(f1, this.points.y1)}" fill="none" stroke="#ff8080" stroke-width="2" stroke-linecap="round" />
               <polyline points="${this.ploty(f2, this.points.y2)}" fill="none" stroke="#8000ff" stroke-width="2" stroke-linecap="round" />
