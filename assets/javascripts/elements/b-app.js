@@ -22,7 +22,7 @@ export class App extends CustomElement {
     this.dragging = false
     this.shift = false
     this.horizontal
-    this.last = {}
+    this.click = {}
     this.selected
 
     this.addEventListener('mousedown', (e) => {
@@ -52,8 +52,8 @@ export class App extends CustomElement {
   }
 
   handleMousedown = (e) => {
-    this.last.x = e.clientX
-    this.last.y = e.clientY
+    this.click.x = e.clientX
+    this.click.y = e.clientY
     this.selected = e.target.id.slice(-1)
     this.circle.x = e.clientX - this.offset.x - this.points[`x${this.selected}`]
     this.circle.y = this.canvas - (e.clientY - this.offset.y) - this.points[`y${this.selected}`]
@@ -65,7 +65,7 @@ export class App extends CustomElement {
   handleMouseup = (e) => {
     this.dragging = false
     this.selected = null
-    this.last.x = undefined
+    this.click.x = undefined
     this.horizontal = undefined
     this.removeEventListener('mousemove', this.udpate)
   }
@@ -78,8 +78,8 @@ export class App extends CustomElement {
 
     if (this.dragging) {
       if (this.shift == true && typeof this.horizontal == 'undefined') {
-        let dX = Math.abs(e.clientX - this.last.x)
-        let dY = Math.abs(e.clientY - this.last.y)
+        let dX = Math.abs(e.clientX - this.click.x)
+        let dY = Math.abs(e.clientY - this.click.y)
 
         if (dX > 10 && dX > dY ) {
           this.horizontal = true
@@ -91,10 +91,10 @@ export class App extends CustomElement {
 
       if (this.horizontal == true) {
         this.points[`x${this.selected}`] = e.clientX - this.offset.x - this.circle.x
-        this.points[`y${this.selected}`] = this.canvas - (this.last.y - this.offset.y) - this.circle.y
+        this.points[`y${this.selected}`] = this.canvas - (this.click.y - this.offset.y) - this.circle.y
 
       } else if (this.horizontal == false) {
-        this.points[`x${this.selected}`] = this.last.x - this.offset.x - this.circle.x
+        this.points[`x${this.selected}`] = this.click.x - this.offset.x - this.circle.x
         this.points[`y${this.selected}`] = this.canvas - (e.clientY - this.offset.y) - this.circle.y
 
       } else {
