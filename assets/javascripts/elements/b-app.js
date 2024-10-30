@@ -69,7 +69,6 @@ export class App extends CustomElement {
     this.circle.x = e.clientX - this.offset.x - this.points[`x${this.selected}`]
     this.circle.y = this.canvas - (e.clientY - this.offset.y) - this.points[`y${this.selected}`]
     this.dragging = true
-
     this.addEventListener('mousemove', this.update)
   }
 
@@ -78,7 +77,7 @@ export class App extends CustomElement {
     this.selected = null
     this.click.x = undefined
     this.horizontal = undefined
-    this.removeEventListener('mousemove', this.udpate)
+    this.removeEventListener('mousemove', this.update)
   }
 
   update = (e) => {
