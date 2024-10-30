@@ -14,6 +14,14 @@ export class App extends CustomElement {
       y3: 0
     }
 
+    this.x0 = false
+    this.x1 = false
+    this.x2 = false
+    this.x3 = false
+    this.y0 = true
+    this.y1 = true
+    this.y2 = true
+    this.y3 = true
     this.canvas = 500
     this.offset = {}
     this.width
@@ -26,19 +34,22 @@ export class App extends CustomElement {
     this.selected
 
     this.addEventListener('mousedown', (e) => {
-      if (e.target.classList.contains('p')) {
+      if (e.target.classList.contains('p'))
         this.handleMousedown(e)
-      }
     })
 
     this.addEventListener('mouseup', (e) => {
       this.handleMouseup(e)
     })
 
+    this.addEventListener('click', (e) => {
+      if (e.target.classList.contains('control'))
+        this[e.target.id] = !this[e.target.id]
+    })
+
     document.addEventListener('keydown', (e) => {
-      if (e.key == 'Shift') {
+      if (e.key == 'Shift')
         this.shift = true
-      }
     })
 
     document.addEventListener('keyup', (e) => {
@@ -189,29 +200,47 @@ export class App extends CustomElement {
           <g transform="translate(${this.offset.x}, ${this.offset.y})">
             <!--<g class="x-plots" transform="scale(-1,1) rotate(90 0 0)">-->
             <g class="x-plots" transform="translate(0, ${this.points.y0}) rotate(-90, 0, 0)">
-              <polyline points="${this.plotx(f0, this.points.x0)}" fill="none" stroke="#ff0000" stroke-width="2" stroke-linecap="round" />
-              <polyline points="${this.plotx(f1, this.points.x1)}" fill="none" stroke="#ff8080" stroke-width="2" stroke-linecap="round" />
-              <polyline points="${this.plotx(f2, this.points.x2)}" fill="none" stroke="#8000ff" stroke-width="2" stroke-linecap="round" />
-              <polyline points="${this.plotx(f3, this.points.x3)}" fill="none" stroke="#0080ff" stroke-width="2" stroke-linecap="round" />
+              <polyline class="plot" id="plot-x0" points="${this.plotx(f0, this.points.x0)}" fill="none" stroke="#ff0000" stroke-width="2" stroke-linecap="round" />
+              <polyline class="plot" id="plot-x1" points="${this.plotx(f1, this.points.x1)}" fill="none" stroke="#ff8080" stroke-width="2" stroke-linecap="round" />
+              <polyline class="plot" id="plot-x2" points="${this.plotx(f2, this.points.x2)}" fill="none" stroke="#8000ff" stroke-width="2" stroke-linecap="round" />
+              <polyline class="plot" id="plot-x3" points="${this.plotx(f3, this.points.x3)}" fill="none" stroke="#0080ff" stroke-width="2" stroke-linecap="round" />
             </g>
             <g class="y-plots">
-              <polyline points="${this.ploty(f0, this.points.y0)}" fill="none" stroke="#ff0000" stroke-width="2" stroke-linecap="round" />
-              <polyline points="${this.ploty(f1, this.points.y1)}" fill="none" stroke="#ff8080" stroke-width="2" stroke-linecap="round" />
-              <polyline points="${this.ploty(f2, this.points.y2)}" fill="none" stroke="#8000ff" stroke-width="2" stroke-linecap="round" />
-              <polyline points="${this.ploty(f3, this.points.y3)}" fill="none" stroke="#0080ff" stroke-width="2" stroke-linecap="round" />
+              <polyline class="plot" id="plot-y0" points="${this.ploty(f0, this.points.y0)}" fill="none" stroke="#ff0000" stroke-width="2" stroke-linecap="round" />
+              <polyline class="plot" id="plot-y1" points="${this.ploty(f1, this.points.y1)}" fill="none" stroke="#ff8080" stroke-width="2" stroke-linecap="round" />
+              <polyline class="plot" id="plot-y2" points="${this.ploty(f2, this.points.y2)}" fill="none" stroke="#8000ff" stroke-width="2" stroke-linecap="round" />
+              <polyline class="plot" id="plot-y3" points="${this.ploty(f3, this.points.y3)}" fill="none" stroke="#0080ff" stroke-width="2" stroke-linecap="round" />
             </g>
-            <path d="M ${this.points.x0},${this.points.y0} C${this.points.x1},${this.points.y1} ${this.points.x2},${this.points.y2} ${this.points.x3},${this.points.y3}" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" />
+            <path d="M ${this.points.x0},${this.points.y0} C${this.points.x1},${this.points.y1} ${this.points.x2},${this.points.y2} ${this.points.x3},${this.points.y3}" fill="none" stroke="#ddd" stroke-width="2" stroke-linecap="round" />
             <circle class="p" id="p0" cx="${this.points.x0}" cy="${this.points.y0}" fill="#ff0000" r="6" />
             <circle class="p" id="p1" cx="${this.points.x1}" cy="${this.points.y1}" fill="#ff8080" r="6" />
             <circle class="p" id="p2" cx="${this.points.x2}" cy="${this.points.y2}" fill="#8000ff" r="6" />
             <circle class="p" id="p3" cx="${this.points.x3}" cy="${this.points.y3}" fill="#0080ff" r="6" />
           </g>
-        </svg>`
+        </svg>
+        <div class="controls">
+          <div class="control" id="x0"><div class="color" style="--color: #ff0000"></div>(1 – t)³ · x₀</div>
+          <div class="control" id="x1"><div class="color" style="--color: #ff8080"></div>(1 – t)² · 3t · x₁</div>
+          <div class="control" id="x2"><div class="color" style="--color: #8000ff"></div>t² · 3(1 – t) · x₂</div>
+          <div class="control" id="x3"><div class="color" style="--color: #0080ff"></div>t³ · x₃</div>
+          <div class="control" id="y0"><div class="color" style="--color: #ff0000"></div>(1 – t)³ · y₀</div>
+          <div class="control" id="y1"><div class="color" style="--color: #ff8080"></div>(1 – t)² · 3t · y₁</div>
+          <div class="control" id="y2"><div class="color" style="--color: #8000ff"></div>t² · 3(1 – t) · y₂</div>
+          <div class="control" id="y3"><div class="color" style="--color: #0080ff"></div>t³ · y₃</div>
+        </div>`
     }
   }
 }
 
 App.propTypes = {
+  x0: Boolean,
+  x1: Boolean,
+  x2: Boolean,
+  x3: Boolean,
+  y0: Boolean,
+  y1: Boolean,
+  y2: Boolean,
+  y3: Boolean,
   dragging: Boolean
 }
 
