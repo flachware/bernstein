@@ -193,9 +193,11 @@ export class App extends CustomElement {
               <rect width="100%" height="100%" fill="none" stroke="#fff" stroke-width="4" />
             </pattern>
           </defs>
-          <g opacity="0.14">
+          <g opacity="0.10">
             <rect width="100%" height="100%" fill="url(#grid)" />
           </g>
+          <line x1="${this.offset.x}" y1="0" x2="${this.offset.x}" y2="100%" stroke="#333" stroke-width="2"/>
+          <line x1="0" y1="${this.offset.y}" x2="100%" y2="${this.offset.y}" stroke="#333" stroke-width="2"/>
           <g transform="translate(${this.offset.x}, ${this.offset.y})">
             <!--<g class="x-plots" transform="scale(-1,1) rotate(90 0 0)">-->
             <g class="x-plots" transform="translate(0, ${this.points.y0}) rotate(-90, 0, 0)">
