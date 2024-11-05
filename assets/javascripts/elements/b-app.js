@@ -221,12 +221,12 @@ export class App extends CustomElement {
         </svg>
         <div class="controls">
           <div class="control" id="x0"><div class="color" style="--color: #ff0000"></div>(1 – t)³ · x₀</div>
-          <div class="control" id="x1"><div class="color" style="--color: #ff8080"></div>(1 – t)² · 3t · x₁</div>
-          <div class="control" id="x2"><div class="color" style="--color: #8000ff"></div>t² · 3(1 – t) · x₂</div>
+          <div class="control" id="x1"><div class="color" style="--color: #ff8080"></div>3t · (1 – t)² · x₁</div>
+          <div class="control" id="x2"><div class="color" style="--color: #8000ff"></div>3t² · (1 – t) · x₂</div>
           <div class="control" id="x3"><div class="color" style="--color: #0080ff"></div>t³ · x₃</div>
           <div class="control" id="y0"><div class="color" style="--color: #ff0000"></div>(1 – t)³ · y₀</div>
-          <div class="control" id="y1"><div class="color" style="--color: #ff8080"></div>(1 – t)² · 3t · y₁</div>
-          <div class="control" id="y2"><div class="color" style="--color: #8000ff"></div>t² · 3(1 – t) · y₂</div>
+          <div class="control" id="y1"><div class="color" style="--color: #ff8080"></div>3t · (1 – t)² · y₁</div>
+          <div class="control" id="y2"><div class="color" style="--color: #8000ff"></div>3t² · (1 – t) · y₂</div>
           <div class="control" id="y3"><div class="color" style="--color: #0080ff"></div>t³ · y₃</div>
         </div>`
     }
